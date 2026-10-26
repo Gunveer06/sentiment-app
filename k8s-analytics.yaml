@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sentiment-analytics-deployment
+  labels:
+    tier: analytics
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      tier: analytics
+  template:
+    metadata:
+      labels:
+        tier: analytics
+    spec:
+      containers:
+      - name: nginx-analytics
+        image: nginx:alpine
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sentiment-analytics-service
+  labels:
+    tier: analytics
+spec:
+  type: NodePort
+  selector:
+    tier: analytics
+  ports:
+  - port: 80
+    targetPort: 80
+    nodePort: 30096

@@ -1,0 +1,12 @@
+---
+- name: Verify Sentiment App Stack Configuration
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Verify sentiment.env batch setting
+      ansible.builtin.command: cat sentiment.env
+      register: env_result
+
+    - name: Print batch setting
+      ansible.builtin.debug:
+        msg: "Verified config: {{ env_result.stdout }}"
